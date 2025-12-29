@@ -1,0 +1,41 @@
+# Proje: Kriptografik Olarak Güvenli Rastgele Sayı Üreteci
+# Bölüm 1: Sözde Kod (Pseudocode)
+# Algoritma: CSPRNG (Cryptographically Secure Pseudo-Random Number Generator)
+
+# CSPRNG'ler genellikle doğrudan bir matematiksel formül yerine, işletim sisteminin
+# sağladığı yüksek kaliteli entropi (rastgelelik) kaynaklarını kullanan bir "kara kutu"
+# olarak çalışır. Bu kaynaklar klavye/fare hareketleri, ağ paket zamanlamaları gibi
+# tahmin edilemez fiziksel olaylardan beslenir.
+
+# Bu nedenle sözde kodu, LCG gibi bir formül yerine, sisteme yapılan bir çağrı olarak ifade edilir.
+
+FONKSİYON CSPRNG_Uret(byte_sayisi, adet):
+  # Girdi Parametreleri:
+  # byte_sayisi: Üretilecek her bir rastgele sayının kaç byte'lık veri olacağı.
+  #              (Örn: 4 byte = 32-bit'lik bir tam sayı)
+  # adet: Kaç tane rastgele sayı üretileceği.
+
+  # 1. Başlatma
+  # Üretilen sayıları saklamak için boş bir liste oluştur.
+  sayi_listesi = []
+
+  # 2. Üretim Döngüsü
+  # İstenen 'adet' kadar sayı üretmek için bir döngü başlat.
+  DÖNGÜ adet KERE:
+    # İşletim sisteminin güvenli rastgelelik kaynağından istenen byte kadar veri talep et.
+    # Bu adım, donanımsal gürültü gibi tahmin edilemez kaynakları kullanır.
+    rastgele_bytelar = SISTEM.GuvenliRastgeleByteAl(byte_sayisi)
+
+    # Alınan byte dizisini, kullanılabilir bir tam sayıya dönüştür.
+    yeni_sayi = BytelariTamSayiyaCevir(rastgele_bytelar)
+
+    # Üretilen yeni sayıyı sonuç listesine ekle.
+    sayi_listesi.EKLE(yeni_sayi)
+  
+  # 3. Sonuç
+  # Döngü tamamlandığında, üretilen kriptografik olarak güvenli sayıları içeren listeyi döndür.
+  DÖNDÜR sayi_listesi
+
+# Önemli Not: CSPRNG'lerde LCG'deki gibi bir "tohum (seed)" değeri kullanıcı tarafından
+# manuel olarak verilmez. Sistem, güvenliği sağlamak için kendi entropi kaynaklarını
+# otomatik olarak yönetir. Bu, tahmin edilebilirliği ortadan kaldırır.
